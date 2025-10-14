@@ -1,0 +1,71 @@
+/* src/index.css */
+
+/* 1. FONT SETUP (Assuming a common font like Inter or similar. You can change this.) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+
+
+/* 2. CSS VARIABLES FROM YOUR COLOR PALETTE */
+:root {
+  /* Primary Colors */
+  --color-primary: #4A0D66;
+  --color-primary-container: #EADDFF;
+  --color-on-primary: #FFFFFF;
+  --color-on-primary-container: #21005D;
+
+  /* Secondary & Tertiary */
+  --color-secondary: #625B71;
+  --color-tertiary: #00A99D;
+
+  /* Background & Surface */
+  --color-background-dark: #1C1B1F;
+  --color-background-light: #FFFFFF;
+  --color-surface: #1C1B1F;
+  --color-surface-variant: #49454F;
+
+  /* Text & Utility */
+  --color-text-dark: #1C1B1F; /* A dark color for text on light backgrounds */
+  --color-text-light: #E6E1E5; /* A LIGHT GREY color for text on dark backgrounds */
+  --color-outline: #79747E;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(90deg, #3A0061, #6D239B);
+  
+  /* Font Families */
+  --font-primary: 'Inter', sans-serif;
+}
+
+/* 3. GLOBAL RESETS AND BASE STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--color-background-light); /* Default background is light */
+  color: var(--color-text-dark);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800; /* Based on your 'Heading 1' style */
+  line-height: 1.2;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-primary);
+  cursor: pointer;
+}
+
+/* A general container for consistent spacing */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}

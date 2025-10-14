@@ -1,0 +1,135 @@
+/* src/sections/WhyChooseUs.css */
+
+.why-choose-us {
+  padding: 80px 0;
+  background-color: var(--color-background-light);
+}
+
+/* Reusable section header style */
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.section-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+}
+
+/* Hexagon Stats */
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 80px;
+}
+
+.stat-box {
+  width: 220px;
+  height: 250px;
+  background: var(--gradient-primary); /* Using the gradient from our variables */
+  color: var(--color-on-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  /* This is the magic for the hexagon shape */
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  transition: transform 0.3s ease;
+}
+
+.stat-box:hover {
+  transform: translateY(-10px);
+}
+
+.stat-icon {
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: var(--color-primary-container);
+}
+
+.stat-number {
+  font-size: 40px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-light);
+}
+
+/* Details Section */
+.details-container {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.details-text {
+  flex: 1;
+}
+.details-text h3 {
+  font-size: 28px;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+.details-text p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: var(--color-secondary);
+}
+.learn-more-link {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.details-video {
+  flex: 1;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.details-video img {
+  width: 100%;
+  display: block;
+}
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  color: var(--color-primary);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  transition: all 0.3s ease;
+}
+.play-button:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  background-color: white;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 960px) {
+  .details-container {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+@media (max-width: 500px) {
+  .stat-box {
+    width: 180px;
+    height: 210px;
+  }
+}

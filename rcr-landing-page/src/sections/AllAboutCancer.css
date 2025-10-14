@@ -1,0 +1,67 @@
+/* src/sections/AllAboutCancer.css */
+
+.cancer-info {
+  padding: 80px 0;
+  background-color: var(--color-background-light); /* Pure white background */
+}
+
+.cancer-grid {
+  display: grid;
+  /* Start with 4 columns on desktop */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.cancer-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #f0f4f8; /* A cool, light grey-blue */
+  border-radius: 12px;
+  border: 1px solid #e1e8f0;
+  transition: all 0.3s ease;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.cancer-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(74, 13, 102, 0.15);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border-color: var(--color-primary);
+}
+
+.cancer-icon {
+  font-size: 28px;
+  margin-right: 15px;
+  /* This ensures the icon vertically aligns with the text */
+  display: flex;
+  align-items: center;
+}
+
+.cancer-name {
+  font-size: 16px;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1200px) {
+  .cancer-grid {
+    /* Switch to 3 columns */
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .cancer-grid {
+    /* Switch to 2 columns */
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .cancer-grid {
+    /* Switch to 1 column */
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,35 @@
+/* src/components/Partners.css */
+
+.partners-section {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.partners-title {
+  color: var(--color-text-light);
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 30px;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+}
+
+.partners-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Allows logos to wrap on smaller screens */
+  gap: 60px; /* Space between logos */
+}
+
+.partners-logos img {
+  height: 45px; /* Adjust for a uniform logo height */
+  filter: grayscale(100%) opacity(70%); /* Make logos monochrome and slightly transparent */
+  transition: all 0.3s ease;
+}
+
+.partners-logos img:hover {
+  filter: grayscale(0%) opacity(100%); /* Bring color and full opacity on hover */
+  transform: scale(1.1);
+}
