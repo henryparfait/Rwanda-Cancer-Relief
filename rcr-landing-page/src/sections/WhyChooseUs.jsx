@@ -57,7 +57,7 @@ const WhyChooseUs = () => {
             <p>
               Our counseling program blends evidence-based practices with Rwandan cultural wisdom, offering compassionate, accessible, and meaningful support.
             </p>
-            <a href="#learn-more" className="learn-more-link">
+            <a href="https://www.rwandacancer.org/" className="learn-more-link">
               Learn more &gt;
             </a>
           </div>

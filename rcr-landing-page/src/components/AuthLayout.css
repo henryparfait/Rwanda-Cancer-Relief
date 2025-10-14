@@ -1,0 +1,56 @@
+/* src/components/AuthLayout.css */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5; /* A light grey background */
+  padding: 20px;
+}
+
+.auth-card {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  min-height: 600px;
+  background-color: white;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.auth-logo-section {
+  flex: 1;
+  background-color: #e9eaf2; /* Light grey-blue from your design */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.auth-logo-section img {
+  max-width: 250px;
+  opacity: 0.7;
+}
+
+.auth-form-section {
+  flex: 1;
+  padding: 40px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .auth-logo-section {
+    display: none; /* Hide logo section on mobile for more form space */
+  }
+  .auth-form-section {
+    padding: 30px;
+  }
+  .auth-card {
+    min-height: auto;
+  }
+}

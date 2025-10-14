@@ -12,72 +12,49 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-// Import avatar images
-// Use your actual avatar images here, e.g., import hannahAvatar from '../assets/avatars/hannah.png';
-import profilePlaceholder from '../assets/avatars/profile-placeholder.png'; // Placeholder if you don't have them yet
-
+// Data is now simpler, without the 'avatar' property
 const testimonialsData = [
   {
-    avatar: profilePlaceholder, // Replace with hannahAvatar if you import it
-    name: 'Hannah Schmitt',
-    title: 'Lead designer',
-    quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu. Faucibus venenatis felis id augue sit cursus pellentesque enim',
-  },
+    name: 'Paul B.',
+    title: 'Architect',
+    quote: 'When I was diagnosed, I felt lost and overwhelmed. Finding Rwanda Cancer Relief gave me a community that understood my fears. The counseling sessions provided me with the strength and hope I needed to face my treatment, not as a victim, but as a fighter. They truly saved my spirit.',
+},
   {
-    avatar: profilePlaceholder, // Replace with hannahAvatar if you import it
-    name: 'Hannah Schmitt',
-    title: 'Lead designer',
-    quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu. Faucibus venenatis felis id augue sit cursus pellentesque enim',
-  },
+    name: 'Diana K.',
+    title: 'Product designer',
+    quote: 'Supporting a loved one through cancer is a journey you can not prepare for. RCR provided our family with invaluable resources and a safe space to ask questions and share our worries. They didn\'t just care for my mother; they supported all of us. We are eternally grateful.',
+},
   {
-    avatar: profilePlaceholder, // Replace with hannahAvatar if you import it
-    name: 'Hannah Schmitt',
-    title: 'Lead designer',
-    quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. Consequat duis diam lacus arcu. Faucibus venenatis felis id augue sit cursus pellentesque enim',
-  },
-  // If you need more slides, duplicate one of the above objects
+    name: 'Clifford M.',
+    title: 'CEO',
+    quote: 'In my work, I see how vital emotional and psychological support is for recovery. Rwanda Cancer Relief fills this crucial gap with compassion and professionalism. Their dedication to providing accessible care that respects our cultural values is making a real, tangible difference in our community.',},
 ];
 
 const Testimonials = () => {
   return (
     <section id="testimonials" className="testimonials">
       <div className="container">
-        {/* Section Header */}
         <div className="section-header">
-          <h2>What Our Clients Say About Us</h2>
+          <h2>Testimonials</h2>
         </div>
-        
-        {/* Testimonials Slider */}
         <Swiper
           modules={[Navigation, Pagination]}
-          spaceBetween={30} // Space between cards
-          slidesPerView={3}  // Show 3 slides at a time by default
-          loop={true}      // Enable looping
-          pagination={{ clickable: true }} // Pagination dots
-          navigation={true}  // Navigation arrows
+          spaceBetween={30}
+          slidesPerView={3}
+          loop={true}
+          pagination={{ clickable: true }}
+          navigation={true}
           className="testimonials-slider"
-          // Responsive breakpoints - adjusts slides per view for smaller screens
           breakpoints={{
-            320: { // for mobile phones
-              slidesPerView: 1,
-              spaceBetween: 15,
-            },
-            768: { // for tablets
-              slidesPerView: 2,
-              spaceBetween: 25,
-            },
-            1024: { // for desktops
-              slidesPerView: 3,
-              spaceBetween: 30,
-            },
+            320: { slidesPerView: 1, spaceBetween: 15 },
+            768: { slidesPerView: 2, spaceBetween: 25 },
+            1024: { slidesPerView: 3, spaceBetween: 30 },
           }}
         >
           {testimonialsData.map((testimonial, index) => (
             <SwiperSlide key={index}>
               <div className="testimonial-card">
-                <div className="testimonial-avatar-wrapper">
-                  <img src={testimonial.avatar} alt={testimonial.name} className="testimonial-avatar" />
-                </div>
+                {/* The avatar wrapper and img tag have been removed */}
                 <h3 className="testimonial-name">{testimonial.name}</h3>
                 <p className="testimonial-title">{testimonial.title}</p>
                 <p className="testimonial-quote">"{testimonial.quote}"</p>

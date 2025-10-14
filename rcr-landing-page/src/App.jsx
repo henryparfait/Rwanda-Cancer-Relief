@@ -1,31 +1,23 @@
 // src/App.jsx
 
 import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './sections/Hero';
-import WhyChooseUs from './sections/WhyChooseUs';
-import Services from './sections/Services';
-import AllAboutCancer from './sections/AllAboutCancer';
-import Testimonials from './sections/Testimonials';
-import FAQ from './sections/FAQ';
-import Footer from './components/Footer';
-// We'll import other sections here as we build them
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Import Page Components
+import LandingPage from './pages/LandingPage'; // We will create this wrapper
+import SignupPage from './pages/SignupPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <Hero />
-      <WhyChooseUs />
-      <Services />
-      <AllAboutCancer />
-      <Testimonials />
-      <FAQ />
-      <Footer />
-      {/* The Hero section will go right here */}
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
-

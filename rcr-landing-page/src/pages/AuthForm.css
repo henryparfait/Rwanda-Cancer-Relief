@@ -1,0 +1,103 @@
+/* src/pages/AuthForm.css */
+
+.auth-form {
+  width: 100%;
+}
+
+.auth-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-secondary);
+  margin-bottom: 8px;
+}
+
+.required-asterisk {
+  color: #d9534f; /* A standard red color for required fields */
+  margin-left: 4px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f7f7fa;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(74, 13, 102, 0.15);
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--color-secondary);
+}
+
+.form-options {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -15px;
+  margin-bottom: 25px;
+}
+
+.forgot-password-link {
+  font-size: 13px;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.auth-button:hover {
+  background-color: #3a0a50;
+  transform: translateY(-2px);
+}
+
+.auth-switch-prompt {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 14px;
+  color: var(--color-secondary);
+}
+
+.auth-link {
+  color: var(--color-primary);
+  font-weight: 700;
+}

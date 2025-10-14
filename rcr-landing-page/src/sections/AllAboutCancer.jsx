@@ -4,7 +4,7 @@ import React from 'react';
 import './AllAboutCancer.css';
 
 // Importing a variety of icons from different sets for the best match
-import { FaLungs, FaBrain, FaRegDotCircle } from 'react-icons/fa';
+import { FaLungs, FaBrain, FaRegDotCircle, FaBone } from 'react-icons/fa';
 // CORRECTED: Replaced GiThroat with GiHumanHead, and GiBladder with GiDrop
 import { GiStomach, GiLiver, GiKidneys, GiDrop } from 'react-icons/gi';
 import { RiGenderlessLine } from 'react-icons/ri';
@@ -26,6 +26,7 @@ const cancerTypes = [
   { name: 'Colon Cancer', icon: <GiStomach />, href: '/cancer/colon' },
   { name: 'Thyroid Cancer', icon: <FaBrain />, href: '/cancer/thyroid' }, // Corrected
   { name: 'Bladder Cancer', icon: <GiDrop />, href: '/cancer/bladder' },
+  { name: 'Bone Cancer', icon: <FaBone />, href: '/cancer/bone' },
 ];
 
 const AllAboutCancer = () => {
@@ -34,7 +35,7 @@ const AllAboutCancer = () => {
       <div className="container">
         <div className="section-header">
           <h2>All About Cancer</h2>
-          <p>Supporting patients and families with care that goes beyond treatment.</p>
+          <p>Everything you need to know about cancer types.</p>
         </div>
         <div className="cancer-grid">
           {cancerTypes.map((cancer, index) => (

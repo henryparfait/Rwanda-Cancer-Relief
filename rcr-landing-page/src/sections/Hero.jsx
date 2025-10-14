@@ -33,7 +33,7 @@ const Hero = () => {
             Meet our passionate team dedicated to supporting cancer patients and raising awareness across Rwanda.
           </p>
           <div className="hero-buttons">
-            <a href="#donate" className="btn btn-primary">Donate Now</a>
+            <a href="https://www.rwandacancer.org/donate" className="btn btn-primary">Donate Now</a>
             <a href="#about" className="btn btn-secondary">Learn more</a>
           </div>
         </div>
