@@ -60,7 +60,7 @@ const LoginPage = () => {
         </form>
 
         <p className="auth-switch-prompt">
-          Don't have an account? <Link to="/signup" className="auth-link">SignUp</Link>
+          Don't have an account? <Link to="/choose-role" className="auth-link">SignUp</Link>
         </p>
       </div>
     </AuthLayout>

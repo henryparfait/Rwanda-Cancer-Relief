@@ -1,25 +1,26 @@
 // src/pages/SignupPage.jsx
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import AuthLayout from '../components/AuthLayout';
 import './AuthForm.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const SignupPage = () => {
-  // State to manage which step of the form is active
-  const [step, setStep] = useState(1);
+  const { role } = useParams();
 
-  // State to hold all the form data in one object
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     gender: '',
-    ageRange: '',
-    country: '',
-    city: '',
+    dob: '',
     district: '',
     telephone: '',
+    cancerType: '',
+    profilePic: null,
+    cv: null, // NEW: Added CV
+    medicalLicense: null, // NEW: Added License
     password: '',
     confirmPassword: '',
   });
@@ -27,7 +28,6 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // A single handler for all input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -35,14 +35,14 @@ const SignupPage = () => {
       [name]: value,
     }));
   };
-
-  const handleNextStep = () => {
-    // We could add validation here before proceeding
-    setStep(2);
-  };
-
-  const handlePrevStep = () => {
-    setStep(1);
+  
+  // UPDATED: This function now handles ALL file inputs dynamically
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: files[0] || null // Store the first file, or null if empty
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -51,91 +51,113 @@ const SignupPage = () => {
       alert("Passwords do not match!");
       return;
     }
-    // Handle the final form submission (e.g., API call)
-    console.log('Submitting form data:', formData);
+    console.log('Submitting form data:', { ...formData, role: role });
   };
 
   return (
     <AuthLayout>
       <div className="auth-form">
-        <h2 className="auth-title">Create Account</h2>
+        <h2 className="auth-title">
+          Create {role === 'patient' ? 'Patient' : 'Counselor'} Account
+        </h2>
         
         <form onSubmit={handleSubmit}>
-          {step === 1 && (
+          
+          <div className="form-row">
+            <div className="form-group">
+              <label>First Name</label>
+              <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+            </div>
+            <div className="form-group">
+              <label>Last Name</label>
+              <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Email</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Your Email" required />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Gender</label>
+              <select name="gender" value={formData.gender} onChange={handleChange} required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Date of Birth</label>
+              <input type="date" name="dob" value={formData.dob} onChange={handleChange} required />
+            </div>
+          </div>
+          
+          <div className="form-row">
+            <div className="form-group">
+              <label>District</label>
+              <input type="text" name="district" value={formData.district} onChange={handleChange} required />
+            </div>
+            <div className="form-group">
+              <label>Telephone</label>
+              <input type="tel" name="telephone" value={formData.telephone} onChange={handleChange} placeholder='07...' required />
+            </div>
+          </div>
+
+          {/* Conditional field for patients */}
+          {role === 'patient' && (
+            <div className="form-group">
+              <label>Type of Cancer (if diagnosed)</label>
+              <select name="cancerType" value={formData.cancerType} onChange={handleChange}>
+                <option value="">Select type (if applicable)</option>
+                <option value="breast">Breast Cancer</option>
+                <option value="prostate">Prostate Cancer</option>
+                <option value="lung">Lung Cancer</option>
+                <option value="cervical">Cervical Cancer</option>
+                <option value="colon">Colon Cancer</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          )}
+
+          {/* NEW: Conditional fields for counselors */}
+          {role === 'counselor' && (
             <>
-              {/* --- STEP 1 FIELDS --- */}
               <div className="form-group">
-                <label>Name</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Your Full Name" required />
+                <label>Upload your CV (PDF/DOC)</label>
+                <input type="file" name="cv" onChange={handleFileChange} accept=".pdf,.doc,.docx" required />
               </div>
               <div className="form-group">
-                <label>Email</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Your Email" required />
+                <label>Upload your Medical License (PDF/JPG/PNG)</label>
+                <input type="file" name="medicalLicense" onChange={handleFileChange} accept=".pdf,.jpg,.jpeg,.png" required />
               </div>
-              <div className="form-group">
-                <label>Gender</label>
-                <select name="gender" value={formData.gender} onChange={handleChange} required>
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Age Range</label>
-                <select name="ageRange" value={formData.ageRange} onChange={handleChange} required>
-                  <option value="">Select Age Range</option>
-                  <option value="18-25">18-25</option>
-                  <option value="26-35">26-35</option>
-                  <option value="36-50">36-50</option>
-                  <option value="50+">50+</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Country</label>
-                <select name="country" value={formData.country} onChange={handleChange} required>
-                   <option value="">Select Country</option>
-                   <option value="rwanda">Rwanda</option>
-                </select>
-              </div>
-              <button type="button" onClick={handleNextStep} className="auth-button">Next</button>
             </>
           )}
 
-          {step === 2 && (
-            <>
-              {/* --- STEP 2 FIELDS --- */}
-              <div className="form-group">
-                <label>City/Province</label>
-                <input type="text" name="city" value={formData.city} onChange={handleChange} placeholder="Your City/Province" required />
-              </div>
-              <div className="form-group">
-                <label>District</label>
-                <input type="text" name="district" value={formData.district} onChange={handleChange} placeholder="Your District" required />
-              </div>
-              <div className="form-group">
-                <label>Telephone</label>
-                <input type="tel" name="telephone" value={formData.telephone} onChange={handleChange} placeholder="+250..." required />
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <div className="password-wrapper">
-                  <input type={showPassword ? 'text' : 'password'} name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
-                  <span onClick={() => setShowPassword(!showPassword)} className="password-toggle-icon">{showPassword ? <FaEyeSlash /> : <FaEye />}</span>
-                </div>
-              </div>
-              <div className="form-group">
-                <label>Confirm Password</label>
-                <div className="password-wrapper">
-                  <input type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" required />
-                  <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="password-toggle-icon">{showConfirmPassword ? <FaEyeSlash /> : <FaEye />}</span>
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button type="button" onClick={handlePrevStep} className="auth-button" style={{ backgroundColor: '#6c757d' }}>Back</button>
-                <button type="submit" className="auth-button">SignUp</button>
-              </div>
-            </>
-          )}
+          <div className="form-group">
+            <label>Profile Picture (PNG/JPG)</label>
+            {/* UPDATED: Make sure this input has the correct 'name' prop */}
+            <input type="file" name="profilePic" onChange={handleFileChange} accept="image/*" />
+          </div>
+
+          <div className="form-group">
+            <label>Password</label>
+            <div className="password-wrapper">
+              <input type={showPassword ? 'text' : 'password'} name="password" value={formData.password} onChange={handleChange} required />
+              <span onClick={() => setShowPassword(!showPassword)} className="password-toggle-icon">{showPassword ? <FaEyeSlash /> : <FaEye />}</span>
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <label>Confirm Password</label>
+            <div className="password-wrapper">
+              <input type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+              <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="password-toggle-icon">{showConfirmPassword ? <FaEyeSlash /> : <FaEye />}</span>
+            </div>
+          </div>
+
+          <button type="submit" className="auth-button">Create Account</button>
         </form>
         
         <p className="auth-switch-prompt">

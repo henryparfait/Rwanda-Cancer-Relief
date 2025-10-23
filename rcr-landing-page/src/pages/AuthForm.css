@@ -101,3 +101,53 @@
   color: var(--color-primary);
   font-weight: 700;
 }
+/* src/pages/AuthForm.css */
+
+/* ... (all your existing styles) ... */
+
+/* NEW: Styles for side-by-side fields */
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  flex: 1; /* Makes each group take up equal space */
+}
+
+/* NEW: Styles for the file input */
+.form-group input[type="file"] {
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.form-group input[type="file"]:focus {
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(74, 13, 102, 0.15);
+}
+
+/* Style the "Choose File" button */
+.form-group input[type="file"]::file-selector-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+  background-color: #3a0a50;
+}
+
+/* Responsive adjustment for form-row */
+@media (max-width: 500px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}

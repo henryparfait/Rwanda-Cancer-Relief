@@ -37,7 +37,7 @@ const Navbar = () => {
         </ul>
         
         {/* 2. DESKTOP SIGNUP BUTTON IS NOW A LINK */}
-        <Link to="/signup" className="nav-signup-btn">
+        <Link to="/choose-role" className="nav-signup-btn">
           Signup
         </Link>
 
@@ -65,7 +65,7 @@ const Navbar = () => {
         </li>
         <li className="nav-item-mobile">
             {/* 3. MOBILE SIGNUP BUTTON IS NOW A LINK */}
-            <Link to="/signup" className="nav-signup-btn-mobile" onClick={toggleMobileMenu}>
+            <Link to="/choose-role" className="nav-signup-btn-mobile" onClick={toggleMobileMenu}>
               Signup
             </Link>
         </li>
