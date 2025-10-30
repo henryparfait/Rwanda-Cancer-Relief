@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { Profiler } from 'react';
 
 const ProfileSchema = new mongoose.Schema({
     user: {

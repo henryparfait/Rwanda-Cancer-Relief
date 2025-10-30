@@ -49,9 +49,9 @@ const userSchema = new mongoose.Schema({
     approvedAt: {
         type: Date,
         default: Date.now
-    },
-
-    timestamps: true    
+    }
+}, {
+    timestamps: true   
 }); 
 
 // Hash password before saving
