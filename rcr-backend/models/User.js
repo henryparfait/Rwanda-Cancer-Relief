@@ -21,21 +21,45 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
-
     isApproved: {
         type: Boolean,
-        default: false // Both patients and counselors need approval
+        default: function() {
+            return this.role !== 'admin'; // this allows admins to be auto-approved
+        }
     },
     approvalStatus: {
         type: String,
         enum: ['pending', 'approved', 'rejected'],
-        default: 'pending'
+        default: function() {
+            return this.role === 'admin' ? 'approved' : 'pending';
+        }
     },
 
+    // Admin specific fields
+    fullName: {
+        type: String,
+        required: function() {
+            return this.role === 'admin';
+        }
+    },
+
+    position: {
+        type: String,
+        default: function() {
+            return this.role === 'admin' ? 'System Administrator' : '';
+        }
+    },
+
+    // Track login info
+    lastLogin: {
+        type: Date
+    },
+
+    loginCount: {
+        type: Number,
+        default: 0
+    },  
+    
     rejectionReason: {
         type: String,
         default: ''
