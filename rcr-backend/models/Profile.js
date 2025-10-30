@@ -65,7 +65,16 @@ const ProfileSchema = new mongoose.Schema({
     }, {
     timestamps: true    
     });
-    
+
+// Profiles for patients and counselors
+ProfileSchema.pre('save', async function (next) {
+    const user = await mongoose.model('User').findById(this.user);
+    if (user && (user.role === 'admin') {
+        return next(new Error('Admins do not require profiles'));
+    }
+    next();
+});
+
 const Profile = mongoose.model('Profile', ProfileSchema);
 export default Profile;
 
