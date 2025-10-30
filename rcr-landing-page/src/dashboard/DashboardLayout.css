@@ -1,0 +1,148 @@
+/* src/dashboard/DashboardLayout.css */
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9fafb; /* Light background for content area */
+}
+
+/* --- Sidebar Styles --- */
+.sidebar {
+  width: 260px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar-logo {
+  height: 60px;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 20px 15px;
+  flex-grow: 1;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #4b5563; /* Gray text */
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 5px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-nav li a svg {
+  margin-right: 12px;
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar-nav li a:hover {
+  background-color: #f3f4f6; /* Light gray on hover */
+}
+
+.sidebar-nav li a.active {
+  background-color: var(--color-primary-container); /* Light purple from our palette */
+  color: var(--color-on-primary-container);
+}
+
+/* --- Main Content Styles --- */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Topbar Styles --- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 40px;
+  flex-shrink: 0;
+}
+
+.search-bar {
+  position: relative;
+}
+
+.search-bar .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.search-bar input {
+  width: 350px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  padding-left: 45px;
+  font-size: 15px;
+}
+.search-bar input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(74, 13, 102, 0.15);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.notification-btn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: #4b5563;
+  font-weight: 500;
+}
+.notification-btn svg {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.profile-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Page Content Styles --- */
+.page-content {
+  flex-grow: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
