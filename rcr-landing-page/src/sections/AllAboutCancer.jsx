@@ -11,22 +11,22 @@ import { RiGenderlessLine } from 'react-icons/ri';
 import { BsBandaid } from 'react-icons/bs';
 
 const cancerTypes = [
-  { name: 'Breast Cancer', icon: <FaRegDotCircle />, href: '/cancer/breast' },
-  { name: 'Head & Neck Cancer', icon: <FaBrain />, href: '/cancer/head-neck' }, // Corrected
-  { name: 'Liver Cancer', icon: <GiLiver />, href: '/cancer/liver' },
-  { name: 'Prostate Cancer', icon: <RiGenderlessLine />, href: '/cancer/prostate' },
-  { name: 'Brain Cancer', icon: <FaBrain />, href: '/cancer/brain' },
-  { name: 'Ovarian Cancer', icon: <FaRegDotCircle />, href: '/cancer/ovarian' },
-  { name: 'Stomach Cancer', icon: <GiStomach />, href: '/cancer/stomach' },
-  { name: 'Blood Cancer', icon: <BsBandaid />, href: '/cancer/blood' },
-  { name: 'Gallbladder Cancer', icon: <GiKidneys />, href: '/cancer/gallbladder' },
-  { name: 'Throat Cancer', icon: <FaBrain />, href: '/cancer/throat' }, // Corrected
-  { name: 'Cervical Cancer', icon: <FaRegDotCircle />, href: '/cancer/cervical' },
-  { name: 'Lung Cancer', icon: <FaLungs />, href: '/cancer/lung' },
-  { name: 'Colon Cancer', icon: <GiStomach />, href: '/cancer/colon' },
-  { name: 'Thyroid Cancer', icon: <FaBrain />, href: '/cancer/thyroid' }, // Corrected
-  { name: 'Bladder Cancer', icon: <GiDrop />, href: '/cancer/bladder' },
-  { name: 'Bone Cancer', icon: <FaBone />, href: '/cancer/bone' },
+  { name: 'Breast Cancer', icon: <FaRegDotCircle />, href: '/cancer/breast-cancer' },
+  { name: 'Head & Neck Cancer', icon: <FaBrain />, href: '/cancer/head-neck-cancer' }, // Corrected
+  { name: 'Liver Cancer', icon: <GiLiver />, href: '/cancer/liver-cancer' },
+  { name: 'Prostate Cancer', icon: <RiGenderlessLine />, href: '/cancer/prostate-cancer' },
+  { name: 'Brain Cancer', icon: <FaBrain />, href: '/cancer/brain-cancer' },
+  { name: 'Ovarian Cancer', icon: <FaRegDotCircle />, href: '/cancer/ovarian-cancer' },
+  { name: 'Stomach Cancer', icon: <GiStomach />, href: '/cancer/stomach-cancer' },
+  { name: 'Blood Cancer', icon: <BsBandaid />, href: '/cancer/blood-cancer' },
+  { name: 'Gallbladder Cancer', icon: <GiKidneys />, href: '/cancer/gallbladder-cancer' },
+  { name: 'Throat Cancer', icon: <FaBrain />, href: '/cancer/throat-cancer' },
+  { name: 'Cervical Cancer', icon: <FaRegDotCircle />, href: '/cancer/cervical-cancer' },
+  { name: 'Lung Cancer', icon: <FaLungs />, href: '/cancer/lung-cancer' },
+  { name: 'Colon Cancer', icon: <GiStomach />, href: '/cancer/colon-cancer' },
+  { name: 'Thyroid Cancer', icon: <FaBrain />, href: '/cancer/thyroid-cancer' }, // Corrected
+  { name: 'Bladder Cancer', icon: <GiDrop />, href: '/cancer/bladder-cancer' },
+  { name: 'Bone Cancer', icon: <FaBone />, href: '/cancer/bone-cancer' },
 ];
 
 const AllAboutCancer = () => {

@@ -5,13 +5,6 @@
   background-color: #f9fafb; /* A slightly off-white to contrast with the previous section */
 }
 
-/* We can reuse the section-header styles defined in WhyChooseUs.css */
-.services .section-header p {
-  max-width: 600px;
-  margin: 10px auto 0;
-  color: var(--color-secondary);
-}
-
 .services-grid {
   display: grid;
   /* Create 3 equal-width columns */

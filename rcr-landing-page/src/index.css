@@ -69,3 +69,27 @@ button {
   max-width: 1200px;
   margin: 0 auto;
 }
+/* --- Global Section Header --- */
+.section-header {
+  /* NEW: Use Flexbox to guarantee centering */
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  margin-bottom: 50px;
+  border: none; /* Remove border if any */
+}
+
+.section-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  text-align: center; /* Add for good measure */
+}
+
+.section-header p {
+  font-size: 16px;
+  color: var(--color-secondary);
+  max-width: 600px;
+  margin: 10px 0 0; /* Remove 'auto' */
+  text-align: center; /* Add for good measure */
+}

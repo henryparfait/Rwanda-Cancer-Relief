@@ -142,3 +142,41 @@
     text-align: center;
   }
 }
+/* src/components/Navbar.css */
+
+/* --- Light Theme Override --- */
+.navbar-light {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Change text links to be dark */
+.navbar-light .nav-link {
+  color: var(--color-text-dark);
+}
+.navbar-light .nav-link:hover {
+  color: var(--color-primary);
+}
+.navbar-light .nav-link::after {
+  background-color: var(--color-primary);
+}
+
+/* Change signup button to be purple */
+.navbar-light .nav-signup-btn {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.navbar-light .nav-signup-btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* Change mobile hamburger icon to be dark */
+.navbar-light .menu-icon span {
+  background-color: var(--color-text-dark);
+}
+
+/* Ensure mobile dropdown is light */
+.navbar-light .nav-menu-mobile {
+  background-color: #ffffff;
+}

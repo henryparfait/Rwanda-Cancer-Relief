@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'; // 1. IMPORT LINK COMPONENT
 import './Navbar.css';
 import logo from '../assets/partners/rcr.png'; // Ensure you have a logo image in the assets folder
 
-const Navbar = () => {
+const Navbar = ({ theme = 'dark' }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${theme === 'light' ? 'navbar-light' : ''}`}>
       <div className="navbar-container">
         {/* Logo now links back to the homepage */}
         <Link to="/" className="navbar-logo">

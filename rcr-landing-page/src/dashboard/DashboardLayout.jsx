@@ -4,13 +4,11 @@ import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import './DashboardLayout.css';
 import rcrLogo from '../assets/partners/rcr.png'; // Using our existing logo
-import profilePic from '../assets/avatars/avatar2.png'; // Placeholder for counselor's pic
-import { 
-  FaThLarge, FaUsers, FaCalendarAlt, FaCommentAlt, 
-  FaBook, FaCog, FaSearch, FaBell 
-} from 'react-icons/fa';
+import profilePic from '../assets/avatars/avatar4.png'; // This will be dynamic later
+import { FaSearch, FaBell } from 'react-icons/fa';
 
-const DashboardLayout = () => {
+// UPDATED: The component now accepts a 'navLinks' prop
+const DashboardLayout = ({ navLinks }) => {
   return (
     <div className="dashboard-layout">
       {/* --- Sidebar --- */}
@@ -19,36 +17,14 @@ const DashboardLayout = () => {
           <img src={rcrLogo} alt="RCR Logo" className="sidebar-logo" />
         </div>
         <ul className="sidebar-nav">
-          <li>
-            <NavLink to="/dashboard/overview">
-              <FaThLarge /><span>Overview</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/patients">
-              <FaUsers /><span>My Patients</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/sessions">
-              <FaCalendarAlt /><span>Session Management</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/messages">
-              <FaCommentAlt /><span>Messages</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/library">
-              <FaBook /><span>Resource Library</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/settings">
-              <FaCog /><span>Settings</span>
-            </NavLink>
-          </li>
+          {/* UPDATED: We now map over the 'navLinks' prop */}
+          {navLinks.map((link) => (
+            <li key={link.to}>
+              <NavLink to={link.to}>
+                {link.icon}<span>{link.label}</span>
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
 

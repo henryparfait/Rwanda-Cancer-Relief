@@ -5,17 +5,6 @@
   background-color: var(--color-background-light);
 }
 
-/* Reusable section header style */
-.section-header {
-  text-align: center;
-  margin-bottom: 50px;
-}
-.section-header h2 {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--color-text-dark);
-}
-
 /* Hexagon Stats */
 .stats-container {
   display: flex;
