@@ -141,3 +141,41 @@
   padding: 30px 40px;
   overflow-y: auto;
 }
+/* src/admin/AdminLayout.css */
+
+/* --- Admin Logout Button --- */
+.admin-sidebar-logout {
+  padding: 20px 15px;
+  margin-top: auto; /* Pushes it above the footer */
+}
+
+.admin-logout-btn {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #d9534f;
+  font-weight: 500;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.admin-logout-btn svg {
+  margin-right: 12px;
+  font-size: 18px;
+  width: 20px;
+}
+
+.admin-logout-btn:hover {
+  background-color: #fceeee;
+}
+
+/* Adjust footer to be at the very bottom */
+.admin-sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  gap: 20px;
+  margin-top: 0; /* Remove margin-top */
+}

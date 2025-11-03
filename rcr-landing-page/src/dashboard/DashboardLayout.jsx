@@ -1,11 +1,11 @@
 // src/dashboard/DashboardLayout.jsx
 
 import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, Link } from 'react-router-dom';
 import './DashboardLayout.css';
 import rcrLogo from '../assets/partners/rcr.png'; // Using our existing logo
 import profilePic from '../assets/avatars/avatar4.png'; // This will be dynamic later
-import { FaSearch, FaBell } from 'react-icons/fa';
+import { FaSearch, FaBell, FaSignOutAlt } from 'react-icons/fa';
 
 // UPDATED: The component now accepts a 'navLinks' prop
 const DashboardLayout = ({ navLinks }) => {
@@ -26,6 +26,11 @@ const DashboardLayout = ({ navLinks }) => {
             </li>
           ))}
         </ul>
+        <div className="sidebar-footer">
+          <Link to="/login" className="sidebar-logout-btn">
+            <FaSignOutAlt /><span>Logout</span>
+          </Link>
+        </div>         
       </nav>
 
       {/* --- Main Content Area --- */}
@@ -34,7 +39,7 @@ const DashboardLayout = ({ navLinks }) => {
         <header className="topbar">
           <div className="search-bar">
             <FaSearch className="search-icon" />
-            <input type="text" placeholder="Search patients, sessions..." />
+            <input type="text" placeholder="Search resources, sessions..." />
           </div>
           <div className="topbar-right">
             <button className="notification-btn">

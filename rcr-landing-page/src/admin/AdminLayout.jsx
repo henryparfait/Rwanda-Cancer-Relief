@@ -1,14 +1,14 @@
 // src/admin/AdminLayout.jsx
 
 import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, Link } from 'react-router-dom';
 import './AdminLayout.css'; // New CSS file
 import rcrLogo from '../assets/partners/rcr.png'; // Using our existing logo
 import adminAvatar from '../assets/avatars/avatar2.png'; // Placeholder
 import {
   FaThLarge, FaUsers, FaTasks, FaChartBar,
   FaBook, FaCheckSquare, FaComments, FaCog,
-  FaBell, FaPlus
+  FaBell, FaPlus, FaSignOutAlt
 } from 'react-icons/fa';
 
 const AdminLayout = () => {
@@ -45,6 +45,11 @@ const AdminLayout = () => {
             <NavLink to="/admin/settings"><FaCog /><span>Settings</span></NavLink>
           </li>
         </ul>
+        <div className="admin-sidebar-logout">
+          <Link to="/login" className="admin-logout-btn">
+            <FaSignOutAlt /><span>Logout</span>
+          </Link>
+        </div>
         <div className="admin-sidebar-footer">
           <a href="#">Quick Links</a>
           <a href="#">Support</a>
