@@ -745,3 +745,30 @@ input:checked + .slider:before {
   margin-top: 10px;
   padding: 12px 24px;
 }
+/* src/dashboard/pages/DashboardPages.css */
+
+/* --- New Chat Button Styles (Counselor) --- */
+.conversation-header-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-chat-btn {
+  background: none;
+  border: 1px solid #e5e7eb;
+  color: var(--color-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.new-chat-btn:hover {
+  background-color: var(--color-primary-container);
+  border-color: var(--color-primary);
+}

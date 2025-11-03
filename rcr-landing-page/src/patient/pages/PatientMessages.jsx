@@ -1,7 +1,8 @@
 // src/patient/pages/PatientMessages.jsx
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './PatientDashboard.css';
-import { FaSearch, FaPaperPlane } from 'react-icons/fa';
+import { FaSearch, FaPaperPlane, FaPlus } from 'react-icons/fa';
 
 // --- Placeholder Data ---
 import avatar1 from '../../assets/avatars/avatar4.png';
@@ -48,6 +49,9 @@ const PatientMessages = () => {
       <div className="conversation-list">
         <div className="conversation-header">
           <h2>My Messages</h2>
+          <Link to="/patient/counsellors" className="btn-new-message">
+            <FaPlus /> Start New Chat
+          </Link>
           <div className="search-conversations">
             <FaSearch />
             <input type="text" placeholder="Search counsellors..." />

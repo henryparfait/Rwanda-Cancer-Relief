@@ -1,7 +1,7 @@
 // src/dashboard/pages/Messages.jsx
 import React, { useState } from 'react';
 import './DashboardPages.css';
-import { FaSearch, FaPaperPlane } from 'react-icons/fa';
+import { FaSearch, FaPaperPlane, FaPlus } from 'react-icons/fa';
 
 // --- Placeholder Data ---
 import avatar1 from '../../assets/avatars/avatar4.png';
@@ -48,7 +48,12 @@ const Messages = () => {
       {/* --- Conversation List Column --- */}
       <div className="conversation-list">
         <div className="conversation-header">
-          <h2>My Conversations</h2>
+          <div className='conversation-header-title'>
+            <h2>My Conversations</h2>
+            <button className="new-chat-btn" title="Start New Chat">
+              <FaPlus />
+            </button>
+          </div>
           <div className="search-conversations">
             <FaSearch />
             <input type="text" placeholder="Search patients..." />
