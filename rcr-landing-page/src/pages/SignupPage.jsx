@@ -1,13 +1,14 @@
 // src/pages/SignupPage.jsx
 
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import AuthLayout from '../components/AuthLayout';
 import './AuthForm.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const SignupPage = () => {
   const { role } = useParams();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -19,14 +20,16 @@ const SignupPage = () => {
     telephone: '',
     cancerType: '',
     profilePic: null,
-    cv: null, // NEW: Added CV
-    medicalLicense: null, // NEW: Added License
+    cv: null, 
+    medicalLicense: null,
     password: '',
     confirmPassword: '',
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,13 +48,106 @@ const SignupPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError('');
+
+  // Frontend validation
+  if (formData.password !== formData.confirmPassword) {
+    setError('Passwords do not match');
+    setIsLoading(false);
+    return;
+  }
+  
+  if (formData.password.length < 6) {
+    setError('Password must be at least 6 characters long');
+    setIsLoading(false);
+    return;
+  }
+
+  try {
+    // Create FormData instead of JSON
+    const formDataToSend = new FormData();
+    
+    // Add all text fields
+    formDataToSend.append('firstName', formData.firstName);
+    formDataToSend.append('lastName', formData.lastName);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('gender', formData.gender);
+    formDataToSend.append('dob', formData.dob);
+    formDataToSend.append('district', formData.district);
+    formDataToSend.append('telephone', formData.telephone);
+    formDataToSend.append('password', formData.password);
+    formDataToSend.append('confirmPassword', formData.confirmPassword);
+    formDataToSend.append('role', role);
+    
+    // Add cancerType for patients
+    if (role === 'patient') {
+      formDataToSend.append('cancerType', formData.cancerType || '');
     }
-    console.log('Submitting form data:', { ...formData, role: role });
+
+    // Add files if they exist
+    if (formData.profilePic) {
+      formDataToSend.append('profilePic', formData.profilePic);
+    }
+    if (formData.cv) {
+      formDataToSend.append('cv', formData.cv);
+    }
+    if (formData.medicalLicense) {
+      formDataToSend.append('medicalLicense', formData.medicalLicense);
+    }
+
+    console.log('Submitting form data with files...');
+
+    // Call backend API with FormData 
+    const response = await fetch('http://localhost:5000/api/auth/register', {
+      method: 'POST',
+      body: formDataToSend, // Send FormData instead of JSON
+
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Registration failed');
+    }
+
+    if (data.success) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.data.user));
+      if (data.data.profile) {
+        localStorage.setItem('profile', JSON.stringify(data.data.profile));
+      }
+
+      console.log('Registration successful:', data);
+
+      // Show success message from backend
+      alert(data.message);
+
+      // Handle redirection based on approval status
+      if (data.data.user.isApproved) {
+        // If approved, go to dashboard
+        if (data.data.user.role === 'patient') {
+          navigate('/patient/dashboard');
+        } else if (data.data.user.role === 'counselor') {
+          navigate('/counselor/dashboard');
+        }
+      } else {
+        // If pending approval, go to login with message
+        navigate('/login', {
+          state: { 
+            message: 'Your account is pending approval. You will be notified once approved.' 
+          }
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Signup error:', error);
+    setError(error.message || 'Network error. Please check if backend is running on port 5000.');
+  } finally {
+    setIsLoading(false);
+  }
   };
 
   return (
