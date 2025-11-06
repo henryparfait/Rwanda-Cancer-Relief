@@ -3,9 +3,16 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { createServer } from 'http';
+import { initializeSocket } from './utils/socket.js';
 import authRoutes from './routes/auth.js';
 import adminRoutes from './routes/admin.js';
 import profileRoutes from './routes/profile.js';
+import counselorRoutes from './routes/counselor.js';
+import sessionRoutes from './routes/sessions.js';
+import messageRoutes from './routes/messages.js';
+import resourceRoutes from './routes/resources.js';
+import templateRoutes from './routes/sessionNotesTemplates.js';
 
 dotenv.config();
 
@@ -44,6 +51,11 @@ const connectDB = async () => {
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/counselor', counselorRoutes);
+app.use('/api/sessions', sessionRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/resources', resourceRoutes);
+app.use('/api/templates', templateRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -76,10 +88,15 @@ app.get('/', (req, res) => {
   });
 });
 
-
 const startServer = async () => {
   await connectDB();
-  app.listen(PORT, () => {
+  
+  const httpServer = createServer(app);
+  const io = initializeSocket(httpServer);
+  
+  app.set('io', io);
+
+  httpServer.listen(PORT, () => {
     console.log(`\n RCR Backend Server Running!`);
     console.log(`Port: ${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV}`);
@@ -89,6 +106,9 @@ const startServer = async () => {
     console.log(`   • Detects user type automatically`);
     console.log(`   • Admins: Email + Password only`);
     console.log(`   • Patients/Counselors: Full registration`);
+    console.log(`\n REAL-TIME:`);
+    console.log(`   • WebSocket server initialized`);
+    console.log(`   • Real-time messaging enabled`);
   });
 };
 
