@@ -1,6 +1,7 @@
 // controllers/adminController.js
 import User from '../models/User.js';
 import Profile from '../models/Profile.js';
+import { sendApprovalNotification, sendRejectionNotification } from '../utils/email.js';
 
 // Get all pending approvals
 export const getPendingApprovals = async (req, res) => {
@@ -70,6 +71,12 @@ export const approveUser = async (req, res) => {
     // get user profile for response
     const profile = await Profile.findOne({ user: user._id });
 
+    try {
+      await sendApprovalNotification(user, profile);
+    } catch (emailError) {
+      console.error('Error sending approval email:', emailError);
+    }
+
     res.json({
       success: true,
       message: `User ${user.role} approved successfully`,
@@ -122,6 +129,15 @@ export const rejectUser = async (req, res) => {
     user.rejectionReason = rejectionReason || 'No reason provided';
 
     await user.save();
+
+    const profile = await Profile.findOne({ user: user._id });
+    if (profile) {
+      try {
+        await sendRejectionNotification(user, profile, user.rejectionReason);
+      } catch (emailError) {
+        console.error('Error sending rejection email:', emailError);
+      }
+    }
 
     res.json({
       success: true,
