@@ -2,6 +2,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Profile from '../models/Profile.js';
+import { uploadImage, uploadDocument } from '../utils/cloudinary.js';
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -51,7 +52,45 @@ export const register = async (req, res) => {
       approvalStatus: 'pending'
     });
 
-    // 4) Create profile
+    // 4) Handle file uploads
+    let profilePictureUrl = '';
+    let cvUrl = '';
+    let medicalLicenseUrl = '';
+
+    if (req.files) {
+      try {
+        if (req.files.profilePic && req.files.profilePic[0]) {
+          const uploadResult = await uploadImage(
+            req.files.profilePic[0].buffer,
+            'rcr/profiles',
+            { width: 400, height: 400, crop: 'fill' }
+          );
+          profilePictureUrl = uploadResult.secure_url;
+        }
+
+        if (role === 'counselor') {
+          if (req.files.cv && req.files.cv[0]) {
+            const uploadResult = await uploadDocument(
+              req.files.cv[0].buffer,
+              'rcr/documents/cv'
+            );
+            cvUrl = uploadResult.secure_url;
+          }
+
+          if (req.files.medicalLicense && req.files.medicalLicense[0]) {
+            const uploadResult = await uploadDocument(
+              req.files.medicalLicense[0].buffer,
+              'rcr/documents/licenses'
+            );
+            medicalLicenseUrl = uploadResult.secure_url;
+          }
+        }
+      } catch (uploadError) {
+        console.error('File upload error:', uploadError);
+      }
+    }
+
+    // 5) Create profile
     const normalizedGender = gender?.toLowerCase();
     const profileData = {
       user: newUser._id,
@@ -64,8 +103,15 @@ export const register = async (req, res) => {
       applicationDate: new Date()
     };
 
+    if (profilePictureUrl) {
+      profileData.profilePicture = profilePictureUrl;
+    }
+
     if (role === 'patient') {
       profileData.cancerType = cancerType || '';
+    } else if (role === 'counselor') {
+      if (cvUrl) profileData.cv = cvUrl;
+      if (medicalLicenseUrl) profileData.medicalLicense = medicalLicenseUrl;
     }
 
     const newProfile = await Profile.create(profileData);
