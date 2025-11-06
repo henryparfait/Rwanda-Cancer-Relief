@@ -56,6 +56,24 @@ const ProfileSchema = new mongoose.Schema({
     yearsOfExperience: Number,
     bio: String,
     qualifications: String,
+    isAvailable: {
+        type: Boolean,
+        default: true
+    },
+    notificationPreferences: {
+        email: {
+            type: Boolean,
+            default: true
+        },
+        sms: {
+            type: Boolean,
+            default: false
+        },
+        message: {
+            type: Boolean,
+            default: true
+        }
+    },
 
     // Additional fields for approval process
     applicationDate: {
