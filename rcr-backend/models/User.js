@@ -58,7 +58,21 @@ const userSchema = new mongoose.Schema({
     loginCount: {
         type: Number,
         default: 0
-    },  
+    },
+    
+    isActive: {
+        type: Boolean,
+        default: true,
+        index: true
+    },
+
+    lastActivityAt: {
+        type: Date
+    },
+
+    deactivatedAt: {
+        type: Date
+    },
     
     rejectionReason: {
         type: String,

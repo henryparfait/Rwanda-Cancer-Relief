@@ -13,6 +13,7 @@ import sessionRoutes from './routes/sessions.js';
 import messageRoutes from './routes/messages.js';
 import resourceRoutes from './routes/resources.js';
 import templateRoutes from './routes/sessionNotesTemplates.js';
+import communityRoutes from './routes/community.js';
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/resources', resourceRoutes);
 app.use('/api/templates', templateRoutes);
+app.use('/api/community', communityRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

@@ -3,6 +3,7 @@ import express from 'express';
 import { protect, authorize } from '../middleware/auth.js';
 import * as adminController from '../controllers/adminController.js';
 import * as adminDashboardController from '../controllers/adminDashboardController.js';
+import * as analyticsController from '../controllers/analyticsController.js';
 
 const router = express.Router();
 
@@ -15,6 +16,12 @@ router.use(authorize('admin'));
 router.get('/dashboard/stats', adminDashboardController.getDashboardStats);
 router.get('/dashboard/activity', adminDashboardController.getRecentActivity);
 router.get('/dashboard/analytics', adminDashboardController.getUserAnalytics);
+
+// Analytics Routes
+router.get('/analytics/overview', analyticsController.getSystemOverview);
+router.get('/analytics/sessions', analyticsController.getSessionAnalytics);
+router.get('/analytics/messages', analyticsController.getMessageAnalytics);
+router.get('/analytics/patient-engagement', analyticsController.getPatientEngagement);
 
 
 // User Management Routes

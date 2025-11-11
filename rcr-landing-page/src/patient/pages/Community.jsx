@@ -1,75 +1,158 @@
 // src/patient/pages/Community.jsx
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './PatientDashboard.css';
 import { 
   FaPlus, FaEllipsisH, FaHeart, FaCommentAlt, 
   FaShare, FaChartLine, FaBookOpen, FaBook, FaCalendarAlt
 } from 'react-icons/fa';
-import userAvatar from '../../assets/avatars/avatar4.png'; // Placeholder for the user
+import apiClient from '../../services/apiClient';
 
-// --- Placeholder Data ---
-const qaPosts = [
-  {
-    id: 1,
-    author: 'Anonymous User',
-    time: '5 hours ago',
-    title: 'Coping with hair loss during chemotherapy',
-    body: 'I\'m really struggling with the emotional impact of hair loss. Does anyone have tips for dealing with this?',
-    likes: 15,
-    comments: 7
-  },
-  {
-    id: 2,
-    author: 'Anonymous User',
-    time: '1 day ago',
-    title: 'Best ways to explain my diagnosis to young children',
-    body: 'My kids are asking a lot of questions about my cancer diagnosis. How can I explain it to them in a way they understand without scaring them?',
-    likes: 22,
-    comments: 12
-  },
-  {
-    id: 3,
-    author: 'Anonymous User',
-    time: '1 day ago',
-    title: 'Finding support groups in Kigali for cancer patients',
-    body: 'I\'m looking for local support groups in Kigali to connect with other cancer patients. Any recommendations or experiences to share?',
-    likes: 18,
-    comments: 9
-  },
-];
-// --- End of Data ---
+const formatDateTime = (value) => {
+  if (!value) {
+    return 'Just now';
+  }
+  try {
+    return new Intl.DateTimeFormat(undefined, {
+      day: 'numeric',
+      month: 'short',
+      hour: 'numeric',
+      minute: 'numeric'
+    }).format(new Date(value));
+  } catch (error) {
+    return value;
+  }
+};
 
 const Community = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchPosts = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const result = await apiClient.get('/community', {
+          params: { audience: 'patients', limit: 20 }
+        });
+
+        if (!isMounted) {
+          return;
+        }
+
+        setPosts(result || []);
+        setIsAuthenticated(true);
+      } catch (fetchError) {
+        if (!isMounted) {
+          return;
+        }
+
+        if (fetchError.status === 401) {
+          setIsAuthenticated(false);
+          setError('Sign in to join the community conversations.');
+        } else {
+          setError(fetchError.message || 'Unable to load community posts.');
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchPosts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const trendingTags = useMemo(() => {
+    const tagCounts = new Map();
+    posts.forEach((post) => {
+      (post.tags || []).forEach((tag) => {
+        const normalised = tag.toLowerCase();
+        tagCounts.set(normalised, (tagCounts.get(normalised) || 0) + 1);
+      });
+    });
+
+    return Array.from(tagCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([tag, count]) => ({ tag, count }));
+  }, [posts]);
+
   return (
     <div className="community-page-layout">
       {/* --- Main Feed (Left) --- */}
       <div className="community-feed">
         <div className="ask-question-bar">
-          <img src={userAvatar} alt="Your Avatar" />
-          <input type="text" placeholder="Ask a question anonymously..." />
-          <button><FaPlus /></button>
+          <div className="ask-question-avatar">?</div>
+          <input type="text" placeholder="Ask a question or share an experience..." disabled />
+          <button type="button" disabled><FaPlus /></button>
         </div>
 
-        {qaPosts.map(post => (
+        {loading && (
+          <div className="qa-post loading-post">
+            <div className="post-body">
+              <h3>Loading discussions…</h3>
+              <p>We are bringing the latest community updates to you.</p>
+            </div>
+          </div>
+        )}
+
+        {!loading && error && (
+          <div className="qa-post error-post">
+            <div className="post-body">
+              <h3>{error}</h3>
+              {!isAuthenticated && <p>Authenticate to contribute to the community.</p>}
+            </div>
+          </div>
+        )}
+
+        {!loading && !error && posts.length === 0 && (
+          <div className="qa-post empty-post">
+            <div className="post-body">
+              <h3>No discussions yet</h3>
+              <p>Start the first conversation to support fellow patients.</p>
+            </div>
+          </div>
+        )}
+
+        {!loading && !error && posts.map((post) => (
           <div className="qa-post" key={post.id}>
             <div className="post-header">
               <div className="post-author">
-                <div className="post-author-avatar">{post.author.charAt(0)}</div>
+                <div className="post-author-avatar">
+                  {post.author?.profile?.firstName?.charAt(0)?.toUpperCase() || 'U'}
+                </div>
                 <div className="post-author-info">
-                  <h4>{post.author}</h4>
-                  <p>{post.time}</p>
+                  <h4>{post.author?.profile?.firstName ? `${post.author.profile.firstName} ${post.author.profile.lastName || ''}`.trim() : 'Community Member'}</h4>
+                  <p>{formatDateTime(post.publishedAt || post.createdAt)}</p>
                 </div>
               </div>
-              <button className="post-options"><FaEllipsisH /></button>
+              <button className="post-options" type="button"><FaEllipsisH /></button>
             </div>
             <div className="post-body">
-              <h3>{post.title}</h3>
-              <p>{post.body}</p>
+              {post.title && <h3>{post.title}</h3>}
+              <p>{post.content}</p>
+              {post.tags && post.tags.length > 0 && (
+                <div className="post-tags">
+                  {post.tags.map((tag) => (
+                    <span key={tag} className="post-tag">#{tag}</span>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="post-footer">
-              <span className="post-action"><FaHeart /> {post.likes}</span>
-              <span className="post-action"><FaCommentAlt /> {post.comments}</span>
+              <span className="post-action"><FaHeart /> {post.reactionSummary?.support + post.reactionSummary?.celebrate + post.reactionSummary?.like + post.reactionSummary?.insight || 0}</span>
+              <span className="post-action"><FaCommentAlt /> {post.commentCount || 0}</span>
               <span className="post-action"><FaShare /> Share</span>
               <Link to="#" className="post-reply-btn">Reply</Link>
             </div>
@@ -82,27 +165,25 @@ const Community = () => {
         <section className="sidebar-section">
           <h3>Trending Discussions</h3>
           <div className="trending-list">
-            <div className="trending-item">
-              <FaChartLine className="trending-icon" />
-              <div className="trending-item-info">
-                <h4>Navigating financial challenges with cancer</h4>
-                <p>43 participants</p>
+            {trendingTags.length === 0 && (
+              <div className="trending-item">
+                <FaChartLine className="trending-icon" />
+                <div className="trending-item-info">
+                  <h4>Community stories</h4>
+                  <p>Join the conversation</p>
+                </div>
               </div>
-            </div>
-            <div className="trending-item">
-              <FaChartLine className="trending-icon" />
-              <div className="trending-item-info">
-                <h4>Mindfulness and meditation for stress</h4>
-                <p>32 participants</p>
+            )}
+
+            {trendingTags.map((topic) => (
+              <div className="trending-item" key={topic.tag}>
+                <FaChartLine className="trending-icon" />
+                <div className="trending-item-info">
+                  <h4>#{topic.tag}</h4>
+                  <p>{topic.count} mentions</p>
+                </div>
               </div>
-            </div>
-            <div className="trending-item">
-              <FaChartLine className="trending-icon" />
-              <div className="trending-item-info">
-                <h4>Healthy eating during and after treatment</h4>
-                <p>28 participants</p>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 

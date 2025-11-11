@@ -39,6 +39,20 @@
   color: var(--color-secondary);
 }
 
+.loading-card,
+.error-card {
+  justify-content: center;
+  text-align: center;
+}
+
+.error-card .stat-number {
+  color: #b91c1c;
+}
+
+.loading-card .stat-number {
+  color: var(--color-secondary);
+}
+
 /* --- Admin Quick Actions --- */
 .admin-quick-actions {
   display: grid;

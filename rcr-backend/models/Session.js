@@ -29,7 +29,7 @@ const sessionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['scheduled', 'in-progress', 'completed', 'cancelled', 'rescheduled'],
+        enum: ['requested', 'scheduled', 'in-progress', 'completed', 'cancelled', 'rescheduled'],
         default: 'scheduled',
         index: true
     },
@@ -43,6 +43,27 @@ const sessionSchema = new mongoose.Schema({
         default: ''
     },
     sessionSummary: {
+        type: String,
+        default: ''
+    },
+    completedAt: {
+        type: Date
+    },
+    requestedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    confirmedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    requestedAt: {
+        type: Date
+    },
+    confirmedAt: {
+        type: Date
+    },
+    requestNotes: {
         type: String,
         default: ''
     },
@@ -66,6 +87,29 @@ const sessionSchema = new mongoose.Schema({
     rescheduledTo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Session'
+    },
+    statusHistory: {
+        type: [{
+            status: {
+                type: String,
+                enum: ['requested', 'scheduled', 'in-progress', 'completed', 'cancelled', 'rescheduled'],
+                required: true
+            },
+            changedAt: {
+                type: Date,
+                default: Date.now
+            },
+            changedBy: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        }],
+        default: function () {
+            return [{
+                status: this.status || 'scheduled',
+                changedAt: new Date()
+            }];
+        }
     }
 }, {
     timestamps: true
@@ -74,6 +118,8 @@ const sessionSchema = new mongoose.Schema({
 sessionSchema.index({ counselor: 1, scheduledDate: 1 });
 sessionSchema.index({ patient: 1, scheduledDate: 1 });
 sessionSchema.index({ status: 1, scheduledDate: 1 });
+sessionSchema.index({ requestedBy: 1, status: 1 });
+sessionSchema.index({ createdAt: 1 });
 
 const Session = mongoose.model('Session', sessionSchema);
 export default Session;

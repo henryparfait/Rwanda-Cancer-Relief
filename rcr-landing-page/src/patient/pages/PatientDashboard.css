@@ -158,22 +158,19 @@
   color: #9ca3af;
 }
 
-.filter-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.counsellor-filter-select select {
   height: 44px;
-  padding: 0 20px;
-  font-size: 15px;
-  font-weight: 600;
-  border: 1px solid #d1d5db;
   border-radius: 8px;
+  border: 1px solid #d1d5db;
   background-color: #ffffff;
+  padding: 0 16px;
+  font-size: 15px;
   color: var(--color-text-dark);
   cursor: pointer;
 }
-.filter-btn:hover {
-  background-color: #f9fafb;
+.counsellor-filter-select select:focus {
+  outline: none;
+  border-color: var(--color-primary);
 }
 
 /* --- Counsellor Grid --- */
@@ -199,6 +196,20 @@
   transform: translateY(-5px);
 }
 
+.counsellor-avatar-fallback {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background-color: var(--color-primary-container);
+  color: var(--color-primary);
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
 .counsellor-avatar {
   width: 100px;
   height: 100px;
@@ -221,6 +232,15 @@
   font-weight: 500;
   margin-top: 5px;
   margin-bottom: 20px;
+}
+
+.counsellor-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--color-secondary);
+  margin-bottom: 15px;
 }
 
 .counsellor-card-actions {
@@ -251,6 +271,17 @@
 }
 .counsellor-card-actions .btn-icon:hover {
   background-color: #e5e7eb;
+}
+
+.counsellor-card.loading-card,
+.counsellor-card.error-card,
+.counsellor-card.empty-card {
+  align-items: center;
+  justify-content: center;
+}
+
+.counsellor-card.error-card h3 {
+  color: #b91c1c;
 }
 
 /* Responsive */
@@ -405,6 +436,58 @@
   margin-bottom: 15px;
 }
 
+.booking-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.booking-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+}
+
+.booking-field select,
+.booking-field textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--color-text-dark);
+  background-color: #ffffff;
+}
+
+.booking-field select:focus,
+.booking-field textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.booking-field textarea {
+  resize: vertical;
+}
+
+.booking-status {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.booking-status.success {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #34d399;
+}
+
+.booking-status.error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
 /* --- Calendar Placeholder --- */
 .calendar-placeholder {
   background-color: #ffffff;
@@ -537,6 +620,14 @@
   align-items: center;
   margin-bottom: 20px;
 }
+
+.upcoming-session-item.loading-item,
+.upcoming-session-item.error-item,
+.upcoming-session-item.empty-item {
+  justify-content: center;
+  text-align: center;
+}
+
 .session-item-avatar {
   width: 40px;
   height: 40px;
@@ -569,6 +660,32 @@
 }
 .session-item-details-btn:hover {
   background-color: #f9fafb;
+}
+
+.pending-requests {
+  margin-top: 25px;
+}
+
+.pending-requests h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin-bottom: 10px;
+}
+
+.pending-item {
+  align-items: flex-start;
+}
+
+.pending-label {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: #fef3c7;
+  color: #92400e;
 }
 
 /* Responsive */
@@ -815,10 +932,16 @@
   padding: 15px;
   margin-bottom: 30px;
 }
-.ask-question-bar img {
+.ask-question-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background-color: var(--color-primary-container);
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 16px;
 }
 .ask-question-bar input {
   flex-grow: 1;
@@ -837,6 +960,10 @@
   font-size: 24px;
   cursor: pointer;
 }
+.ask-question-bar button[disabled] {
+  color: #cbd5f5;
+  cursor: not-allowed;
+}
 
 .qa-post {
   background-color: #ffffff;
@@ -844,6 +971,16 @@
   border-radius: 12px;
   padding: 25px;
   margin-bottom: 20px;
+}
+
+.qa-post.loading-post,
+.qa-post.error-post,
+.qa-post.empty-post {
+  text-align: center;
+}
+
+.qa-post.error-post h3 {
+  color: #b91c1c;
 }
 
 .post-header {
@@ -894,6 +1031,23 @@
   font-size: 15px;
   color: var(--color-text-dark);
   line-height: 1.7;
+}
+
+.post-tags {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tag {
+  background-color: #f3f4f6;
+  color: var(--color-secondary);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: lowercase;
 }
 
 .post-footer {

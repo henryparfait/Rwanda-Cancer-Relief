@@ -81,10 +81,10 @@ Returns detailed profile of a specific patient.
 ### Get Sessions
 **GET** `/api/sessions`
 
-Get all sessions for the counselor. If no status query parameter is provided, returns both upcoming and past sessions.
+Get all sessions for the counselor. If no status query parameter is provided, returns upcoming, past, and pending requests.
 
 **Query Parameters:**
-- `status` (optional): Filter by status (`scheduled`, `in-progress`, `completed`, `cancelled`, `rescheduled`)
+- `status` (optional): Filter by status (`requested`, `scheduled`, `in-progress`, `completed`, `cancelled`)
 - `type` (optional): Filter by session type (`individual`, `group`, `family`)
 
 **Response (without status):**
@@ -92,6 +92,7 @@ Get all sessions for the counselor. If no status query parameter is provided, re
 {
   "success": true,
   "data": {
+    "pendingRequests": [ ... ],
     "upcoming": [ ... ],
     "past": [ ... ]
   }
@@ -210,6 +211,44 @@ Start a scheduled session (changes status to `in-progress`).
 {
   "success": true,
   "message": "Session started successfully",
+  "data": { ... }
+}
+```
+
+### Respond to Session Request
+**PUT** `/api/sessions/requests/:sessionId/respond`
+
+Approve or decline a pending session request. Only counselors can perform this action.
+
+**Request Body:**
+```json
+{
+  "action": "approve",
+  "scheduledDate": "2024-11-01",
+  "scheduledTime": "09:30",
+  "duration": 60,
+  "responseMessage": "Looking forward to our session."
+}
+```
+
+- `action`: Allowed values are `approve` or `decline`.
+- `scheduledDate` and `scheduledTime` are optional when declining a request.
+- `responseMessage` is optional notes shared with the patient.
+
+**Response (approve):**
+```json
+{
+  "success": true,
+  "message": "Session request approved",
+  "data": { ... }
+}
+```
+
+**Response (decline):**
+```json
+{
+  "success": true,
+  "message": "Session request declined",
   "data": { ... }
 }
 ```
@@ -571,6 +610,241 @@ Update email and phone number.
   "data": { ... }
 }
 ```
+
+---
+
+## 6. Counselor Directory Endpoints
+
+### Search Counsellors
+**GET** `/api/counselor/directory`
+
+Search and filter counsellors. Accessible to patients, counselors, and admins.
+
+**Query Parameters:**
+- `q` (optional): Free-text search across names, bios, and specialties.
+- `serviceMode` (optional): Filter by `in-person`, `virtual`, or `hybrid`.
+- `specialization` (optional): Filter by specialization keyword.
+- `limit` (optional): Results per page (default: 12).
+- `page` (optional): Page number (default: 1).
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "...",
+      "email": "counselor@example.com",
+      "fullName": "Dr. Jane Doe",
+      "specialties": ["oncology", "family support"],
+      "languages": ["English"],
+      "serviceModes": ["virtual"],
+      "rating": { "average": 4.8, "count": 12 },
+      "metrics": {
+        "totalSessions": 120,
+        "completedSessions": 110,
+        "upcomingSessions": 4,
+        "activePatients": 18,
+        "completionRate": 91.7,
+        "averageSessionsPerPatient": 6.7
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 12,
+    "total": 24,
+    "totalPages": 2
+  }
+}
+```
+
+### Get Counsellor Details
+**GET** `/api/counselor/directory/:counselorId`
+
+Return the public profile for a counsellor, including availability preview.
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "...",
+    "email": "counselor@example.com",
+    "fullName": "Dr. Jane Doe",
+    "bio": "Oncology specialist with 10 years of experience.",
+    "availability": {
+      "timezone": "Africa/Kigali",
+      "weeklySchedule": [ ... ],
+      "upcomingSlots": [
+        {
+          "date": "2024-11-05T00:00:00.000Z",
+          "start": "09:00",
+          "end": "10:00",
+          "isVirtual": true
+        }
+      ]
+    },
+    "metrics": { ... },
+    "recentPatients": [ ... ]
+  }
+}
+```
+
+### Update Availability and Preferences
+**PUT** `/api/counselor/profile/availability`
+
+Update availability, specialties, languages, and service modes. Counselor role required.
+
+**Request Body (partial example):**
+```json
+{
+  "isAvailable": true,
+  "availability": {
+    "timezone": "Africa/Kigali",
+    "weeklySchedule": [
+      {
+        "day": "monday",
+        "slots": [
+          { "start": "09:00", "end": "12:00", "isVirtual": true },
+          { "start": "14:00", "end": "16:00", "isVirtual": false }
+        ]
+      }
+    ],
+    "exceptions": [
+      { "date": "2024-11-15", "isAvailable": false, "reason": "Conference" }
+    ]
+  },
+  "specialties": ["oncology", "grief support"],
+  "serviceModes": ["virtual", "in-person"],
+  "languages": ["English", "Kinyarwanda"]
+}
+```
+
+---
+
+## 7. Patient Session Endpoints
+
+### Get Patient Sessions
+**GET** `/api/sessions/patient`
+
+Return the patient’s upcoming sessions, past sessions, and pending requests.
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "pendingRequests": [ ... ],
+    "upcoming": [ ... ],
+    "past": [ ... ]
+  }
+}
+```
+
+### Request a Session
+**POST** `/api/sessions/patient/request`
+
+Submit a new session request to a counsellor. Patient role required.
+
+**Request Body:**
+```json
+{
+  "counselorId": "...",
+  "scheduledDate": "2024-11-05",
+  "scheduledTime": "09:30",
+  "sessionType": "individual",
+  "notes": "Follow-up after treatment."
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Session request submitted successfully",
+  "data": { ... }
+}
+```
+
+### Cancel a Session Request
+**PUT** `/api/sessions/patient/:sessionId/cancel`
+
+Cancel a pending or scheduled session as a patient.
+
+**Request Body:**
+```json
+{
+  "cancellationReason": "Scheduling conflict"
+}
+```
+
+---
+
+## 8. Community Feed Endpoints
+
+### List Community Posts
+**GET** `/api/community`
+
+Retrieve community posts filtered by audience.
+
+**Query Parameters:**
+- `audience` (optional): `patients`, `counselors`, or `all` (defaults to role-based scope).
+- `tag` (optional): Filter by tag.
+- `page` and `limit` (optional): Pagination controls (defaults: 1, 20).
+
+### Create a Post
+**POST** `/api/community`
+
+Create a new community post. Patients, counselors, and admins are allowed.
+
+**Request Body:**
+```json
+{
+  "title": "Coping with treatment",
+  "content": "Sharing my tips for staying positive...",
+  "audience": "patients",
+  "tags": ["mindset", "support"]
+}
+```
+
+### React to a Post
+**POST** `/api/community/:postId/reactions`
+
+Toggle or change a reaction on a post. Allowed types: `like`, `support`, `insight`, `celebrate`.
+
+### Manage Comments
+- **GET** `/api/community/:postId/comments` — List comments for a post (supports pagination and `parentId` for replies).
+- **POST** `/api/community/:postId/comments` — Add a comment or reply.
+- **DELETE** `/api/community/comments/:commentId` — Delete a comment (author, post owner, or admin).
+
+### Moderate Posts
+- **DELETE** `/api/community/:postId` — Delete a post (author or admin).
+- **PUT** `/api/community/:postId/pin` — Toggle the pinned state (admin only).
+
+---
+
+## 9. Admin Analytics Endpoints
+
+### System Overview
+**GET** `/api/admin/analytics/overview`
+
+Return user, session, and messaging metrics for dashboards.
+
+### Session Analytics
+**GET** `/api/admin/analytics/sessions`
+
+Return completion rates, upcoming sessions, and top counselors.
+
+### Message Analytics
+**GET** `/api/admin/analytics/messages`
+
+Return message volumes, unread counts, and reaction distributions by role.
+
+### Patient Engagement
+**GET** `/api/admin/analytics/patient-engagement`
+
+Report on patient adoption, active patients, and returning session counts.
 
 ---
 

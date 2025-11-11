@@ -24,12 +24,21 @@ const messageSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    messageType: {
+        type: String,
+        enum: ['text', 'image', 'document', 'system'],
+        default: 'text',
+        index: true
+    },
     isRead: {
         type: Boolean,
         default: false,
         index: true
     },
     readAt: {
+        type: Date
+    },
+    deliveredAt: {
         type: Date
     },
     attachments: [{

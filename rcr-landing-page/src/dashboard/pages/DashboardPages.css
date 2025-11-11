@@ -161,6 +161,19 @@
   margin-bottom: 20px;
 }
 
+.session-avatar-fallback {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background-color: var(--color-primary-container);
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-right: 15px;
+  text-transform: uppercase;
+}
+
 .session-avatar {
   width: 50px;
   height: 50px;
@@ -195,6 +208,21 @@
   color: #065f46; /* Dark green */
 }
 
+.session-status-badge.yellow {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.session-status-badge.red {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.session-status-badge.gray {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
 .session-time-info {
   display: flex;
   flex-direction: column;
@@ -218,6 +246,24 @@
   flex-direction: column;
   gap: 10px;
   margin-top: auto; /* Pushes buttons to the bottom */
+}
+
+.session-request-actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.session-card.loading-card,
+.session-card.error-card,
+.session-card.empty-card {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.session-card.error-card .session-status-badge {
+  margin-top: 10px;
 }
 
 .btn-secondary-outline {
